@@ -299,11 +299,26 @@ export function BookingForm() {
             className="mt-4 space-y-3"
             onSubmit={(event) => {
               event.preventDefault();
+              const formData = new FormData(event.currentTarget);
+              const pickup = formData.get("pickup") as string;
+              const drop = formData.get("drop") as string;
+              const datetime = formData.get("datetime") as string;
+
+              const message = `Hello PS Taxi! I would like to request a quote.
+📍 *Pickup:* ${pickup}
+📍 *Drop:* ${drop}
+📅 *Date & Time:* ${new Date(datetime).toLocaleString()}
+🚙 *Vehicle:* ${vehicle}`;
+
+              window.open(
+                `https://wa.me/916380886330?text=${encodeURIComponent(message)}`,
+                "_blank",
+              );
               setSubmitted(true);
             }}
           >
-            <Field label="Pickup" placeholder="Chennai Airport (MAA)" dot="bg-ink" />
-            <Field label="Drop" placeholder="Mahabalipuram" dot="bg-amber" />
+            <Field label="Pickup" name="pickup" placeholder="Chennai Airport (MAA)" dot="bg-ink" />
+            <Field label="Drop" name="drop" placeholder="Mahabalipuram" dot="bg-amber" />
             <div className="grid grid-cols-2 gap-3">
               <label className="block">
                 <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink/45">
@@ -311,6 +326,7 @@ export function BookingForm() {
                 </span>
                 <input
                   required
+                  name="datetime"
                   type="datetime-local"
                   className="mt-1 w-full rounded-lg border border-hairline bg-mist px-3 py-2.5 text-sm text-ink outline-none focus:border-amber"
                 />
@@ -376,13 +392,24 @@ export function BookingForm() {
   );
 }
 
-function Field({ label, placeholder, dot }: { label: string; placeholder: string; dot: string }) {
+function Field({
+  label,
+  placeholder,
+  dot,
+  name,
+}: {
+  label: string;
+  placeholder: string;
+  dot: string;
+  name?: string;
+}) {
   return (
     <label className="block">
       <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink/45">{label}</span>
       <span className="mt-1 flex items-center gap-2 rounded-lg border border-hairline bg-mist px-3 py-2.5 focus-within:border-amber">
         <span className={`size-2 rounded-full ${dot}`} />
         <input
+          name={name}
           required
           placeholder={placeholder}
           className="min-w-0 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-ink/40"
