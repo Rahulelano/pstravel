@@ -84,6 +84,24 @@ function ContactPage() {
                 className="mt-6 grid gap-4 sm:grid-cols-2"
                 onSubmit={(event) => {
                   event.preventDefault();
+                  const formData = new FormData(event.currentTarget);
+                  const name = formData.get("name") as string;
+                  const phone = formData.get("phone") as string;
+                  const pickup = formData.get("pickup") as string;
+                  const drop = formData.get("drop") as string;
+                  const messageText = formData.get("message") as string;
+
+                  const text = `Hello PS Taxi! I am reaching out for a booking.
+👤 *Name:* ${name}
+📞 *Phone:* ${phone}
+📍 *Pickup:* ${pickup}
+📍 *Drop:* ${drop}
+💬 *Message:* ${messageText}`;
+
+                  window.open(
+                    `https://wa.me/916380886330?text=${encodeURIComponent(text)}`,
+                    "_blank",
+                  );
                   setSent(true);
                 }}
               >
@@ -93,6 +111,7 @@ function ContactPage() {
                   </span>
                   <input
                     required
+                    name="name"
                     className="mt-1 w-full rounded-lg border border-hairline bg-mist px-3 py-3 text-sm outline-none focus:border-amber"
                   />
                 </label>
@@ -102,6 +121,7 @@ function ContactPage() {
                   </span>
                   <input
                     required
+                    name="phone"
                     type="tel"
                     className="mt-1 w-full rounded-lg border border-hairline bg-mist px-3 py-3 text-sm outline-none focus:border-amber"
                   />
@@ -112,6 +132,7 @@ function ContactPage() {
                   </span>
                   <input
                     required
+                    name="pickup"
                     placeholder="Chennai Airport, hotel, railway station..."
                     className="mt-1 w-full rounded-lg border border-hairline bg-mist px-3 py-3 text-sm outline-none focus:border-amber"
                   />
@@ -122,6 +143,7 @@ function ContactPage() {
                   </span>
                   <input
                     required
+                    name="drop"
                     placeholder="Destination or tour route"
                     className="mt-1 w-full rounded-lg border border-hairline bg-mist px-3 py-3 text-sm outline-none focus:border-amber"
                   />
@@ -132,6 +154,7 @@ function ContactPage() {
                   </span>
                   <textarea
                     rows={4}
+                    name="message"
                     placeholder="Date, passenger count, vehicle preference..."
                     className="mt-1 w-full resize-none rounded-lg border border-hairline bg-mist px-3 py-3 text-sm outline-none focus:border-amber"
                   />
